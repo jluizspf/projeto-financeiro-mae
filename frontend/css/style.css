@@ -1,0 +1,244 @@
+/* --- Opção A: Clássica e Limpa --- */
+:root {
+    --bg-color: #f4f4f4;       /* Cinza bem claro para o fundo */
+    --card-color: #ffffff;     /* Branco para os cartões */
+    --text-color: #333333;     /* Cinza escuro para texto */
+    --primary-color: #2E7D32;  /* Verde sólido (Finanças) */
+    --accent-color: #C62828;   /* Vermelho (Urgência/Receitas) */
+    --secondary-color: #1565C0; /* Azul (Remédios) */
+    --tertiary-color: #763163; /* Roxo (Agenda= Telefones e E-mails) */
+    --quaternary-color: #C7A81F; /* Amarelo (Compromissos) */
+    --neutral-color: #6D4C41;   /* Marrom (Despensa) */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Garante altura total */
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+/* --- O Grid do Hub (Tela Inicial) --- */
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Os Botões Gigantes (Cards) */
+.hub-card {
+    background-color: var(--card-color);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-decoration: none; /* Remove sublinhado de links */
+    color: var(--text-color);
+    border: 2px solid transparent;
+    transition: transform 0.2s;
+}
+
+.hub-card:hover {
+    transform: translateY(-5px); /* Efeito de "levantar" */
+}
+
+/* Ícones */
+.hub-icon {
+    font-size: 4rem; /* Ícone GIGANTE */
+    display: block;
+    margin-bottom: 15px;
+}
+
+.hub-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Cores dos Módulos */
+.card-financeiro .hub-icon { color: var(--primary-color); }
+.card-receitas .hub-icon { color: var(--accent-color); }
+.card-remedios .hub-icon { color: var(--secondary-color); }
+.card-despensa .hub-icon { color: var(--neutral-color); }
+.card-agenda .hub-icon { color: var(--tertiary-color); }
+.card-compromissos .hub-icon { color: var(--quaternary-color); }
+
+
+
+.card-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #e0e0e0;
+}
+/* --- Estilos do Dashboard --- */
+
+/* Barra superior */
+.top-bar {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.btn-voltar {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.btn-voltar .material-icons { margin-right: 5px; }
+
+/* Cartão de Saldo */
+.saldo-card {
+    background-color: var(--card-color);
+    width: 100%;
+    max-width: 540px;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    border-left: 10px solid var(--primary-color); /* Faixa verde lateral */
+}
+
+.saldo-label { font-size: 1.2rem; color: #666; }
+.saldo-valor {
+    font-size: 3rem; /* Fonte bem grande */
+    font-weight: bold;
+    color: var(--text-color);
+    margin-top: 10px;
+}
+
+/* Botões de Ação (Gastei / Ganhei) */
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+.btn-acao {
+    border: none;
+    border-radius: 15px;
+    padding: 25px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: transform 0.1s;
+}
+
+.btn-acao:active { transform: scale(0.98); }
+.btn-acao .material-icons { font-size: 3rem; margin-bottom: 10px; }
+
+.btn-despesa { background-color: var(--accent-color); } /* Vermelho */
+.btn-receita { background-color: var(--primary-color); } /* Verde */
+
+/* Lista de Transações */
+.lista-container { width: 100%; max-width: 600px; }
+
+.transacoes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.transacao-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.t-valor-negativo { color: var(--accent-color); font-weight: bold; }
+.t-valor-positivo { color: var(--primary-color); font-weight: bold; }
+
+/* --- Estilos do Modal (Janela Flutuante) --- */
+.modal-overlay {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro transparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Fica por cima de tudo */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura */
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-cancelar, .btn-confirmar {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-cancelar { background-color: #ccc; color: #333; }
+.btn-confirmar { background-color: var(--primary-color); color: white; width: 60%; }

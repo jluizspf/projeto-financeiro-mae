@@ -1,0 +1,11 @@
+# Ambiente Virtual
+venv/
+
+# Banco de Dados SQLite
+financas.db
+
+# Cache do Python
+__pycache__/
+
+# Configurações do PyCharm
+.idea/
