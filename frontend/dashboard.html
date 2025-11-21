@@ -16,22 +16,58 @@
         <h2>Minhas Finanças</h2>
     </div>
 
-    <div class="saldo-card">
-        <div class="saldo-label">Saldo Atual</div>
-        <div class="saldo-valor" id="saldo-atual">R$ ---,--</div>
+    <div class="mes-navegacao">
+        <button class="btn-nav" onclick="mudarMes(-1)">
+            <span class="material-icons">chevron_left</span>
+        </button>
+        <h3 id="titulo-mes">Carregando...</h3>
+        <button class="btn-nav" onclick="mudarMes(1)">
+            <span class="material-icons">chevron_right</span>
+        </button>
     </div>
 
+    <div id="container-alertas" class="alertas-container">
+        </div>
+
+    <div class="saldos-grid">
+        <div class="saldo-card">
+            <div class="saldo-label">Saldo Atual</div>
+            <div class="saldo-valor" id="saldo-atual">R$ ---,--</div>
+        </div>
+
+     <div class="saldo-card card-estimado">
+            <div class="saldo-label">
+                Saldo Estimado
+                <span class="material-icons" style="font-size: 1rem; vertical-align: middle;" title="Passe o mouse para ver detalhes">info</span>
+            </div>
+            <div class="saldo-valor" id="saldo-estimado">R$ ---,--</div>
+
+            <div class="tooltip-detalhes">
+                <div style="font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
+                    Detalhes da Previsão:
+                </div>
+                <ul id="lista-estimativa" style="list-style: none; padding: 0; margin: 0; font-size: 0.85rem; text-align: left;">
+                    <li>Carregando...</li>
+                </ul>
+            </div>
+     </div>
+</div>
     <div class="action-grid">
         <button class="btn-acao btn-despesa" onclick="abrirModal('despesa')">
-    <span class="material-icons">remove_circle</span>
-    Despesas
-</button>
+            <span class="material-icons">remove_circle</span>
+            Despesas
+        </button>
+        <button class="btn-acao btn-receita" onclick="abrirModal('receita')">
+            <span class="material-icons">add_circle</span>
+            Rendas
+        </button>
+    </div>
 
-<button class="btn-acao btn-receita" onclick="abrirModal('receita')">
-    <span class="material-icons">add_circle</span>
-    Rendas
-</button>
-
+    <div style="text-align: center; margin-bottom: 30px;">
+        <button class="btn-agendar" onclick="abrirModalConta()">
+            <span class="material-icons">event</span>
+            Agendar Conta Fixa
+        </button>
     </div>
 
     <div class="lista-container">
@@ -64,7 +100,38 @@
         </div>
     </div>
 
-    ```
-<script src="js/app.js"></script>
-</body>
+        <div id="modal-conta" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="color: #E65100;">Nova Conta Fixa</h3>
+
+            <div class="form-group">
+                <label for="conta-tipo">Tipo de Agendamento</label>
+                <select id="conta-tipo" style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #ddd;">
+                    <option value="despesa">Conta a Pagar (Saída)</option>
+                    <option value="receita">Entrada Fixa/Eventual (Salário)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="conta-descricao">Nome (Ex: Luz ou Salário)</label>
+                <input type="text" id="conta-descricao" placeholder="Nome da conta">
+            </div>
+
+            <div class="form-group">
+                <label for="conta-valor">Valor Estimado (R$)</label>
+                <input type="number" id="conta-valor" placeholder="0,00" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="conta-dia">Dia do Vencimento (1-31)</label>
+                <input type="number" id="conta-dia" placeholder="Dia" min="1" max="31">
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancelar" onclick="fecharModalConta()">Cancelar</button>
+                <button class="btn-confirmar" style="background-color: #E65100;" onclick="salvarConta()">Agendar</button>
+            </div>
+        </div> </div> <script src="js/app.js"></script>
+
+ </body>
 </html>
