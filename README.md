@@ -1,4 +1,5 @@
 #🏠 **Controle Financeiro da Casa**
+---
 
 Oi, mãe! ❤️
 
@@ -7,6 +8,8 @@ Este é o programinha que eu fiz para te ajudar a controlar as contas, o dinheir
 Siga estes 3 passos devagar. Se tiver dúvida, pode me ligar!
 
 ##Passo 1: Preparar o Terreno (Só precisa fazer uma vez)
+---
+
 Para o programa funcionar, seu computador precisa de uma ferramenta chamada Python.
 
 **Baixe o Python: [Clique neste link para baixar](https://www.google.com/search?q=https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe).**
@@ -20,6 +23,8 @@ Agora clique no botão grandão "Install Now".
 Espere terminar e clique em "Close".
 
 ##Passo 2: Baixar o Programa
+---
+
 Nesta página que você está lendo, procure um botão verde escrito **<> Code**.
 
 Clique nele e escolha a opção **Download ZIP**.
@@ -27,6 +32,8 @@ Clique nele e escolha a opção **Download ZIP**.
 Vai baixar uma pasta compactada. Abra ela e arraste a pasta de dentro para a sua Área de Trabalho (Desktop).
 
 ##Passo 3: Usar o Programa (Todo dia)
+---
+
 Agora que já está tudo no seu computador:
 
 1.Entre na pasta do projeto que você colocou na Área de Trabalho.
@@ -40,6 +47,7 @@ O que vai acontecer:
 Uma janela preta vai aparecer. Ela vai carregar algumas coisas (letras brancas e verdes). Não feche essa janela! Ela é o motor do programa. Pode apenas minimizá-la.
 
 Logo em seguida, o seu navegador (Chrome ou Edge) vai abrir automaticamente já na tela das suas Finanças.
+
 ---
 💡 Dicas de Uso
 Para fechar: Quando terminar de usar, pode fechar o site no navegador e depois fechar a janela preta.
