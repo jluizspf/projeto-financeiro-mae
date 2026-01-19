@@ -309,4 +309,7 @@ def delete_conta_recorrente(id):
 # --- Execução ---
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()  # <--- Isso cria as tabelas se elas não existirem!
     app.run(debug=True)
+    
