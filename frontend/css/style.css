@@ -387,3 +387,30 @@ h1 {
 .relogio-icone {
     color: var(--primary-color); /* Verde do sistema */
 }
+
+/* --- Botão Cartões (Estilo Azul) --- */
+.btn-cartao-dash {
+    background-color: white;
+    border: 2px solid #1565C0; /* Azul Escuro */
+    color: #1565C0;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none; /* Remove sublinhado de link */
+    transition: background-color 0.2s;
+    width: 100%; /* Ocupa largura disponível se precisar */
+    max-width: 300px;
+    justify-content: center;
+}
+
+.btn-cartao-dash:hover {
+    background-color: #E3F2FD; /* Azul bem clarinho */
+}
+
+.btn-cartao-dash .material-icons {
+    margin-right: 8px;
+}

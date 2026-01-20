@@ -310,3 +310,137 @@ function iniciarRelogio() {
     atualizar();
     setInterval(atualizar, 1000);
 }
+
+// ==========================================
+// MÓDULO DE CARTÕES DE CRÉDITO
+// ==========================================
+
+let cartaoSelecionadoId = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('area-cartoes')) {
+        carregarListaCartoes();
+    }
+});
+
+async function carregarListaCartoes() {
+    const container = document.getElementById('lista-cartoes-chips');
+    // Reinicia o container mantendo apenas o botão de "+"
+    container.innerHTML = `<div class="chip-cartao btn-novo-cartao" onclick="abrirModalNovoCartao()">+ Novo</div>`;
+
+    try {
+        const resp = await fetch(`${API_URL}/cartoes`);
+        const cartoes = await resp.json();
+
+        cartoes.forEach(cartao => {
+            const chip = document.createElement('div');
+            chip.className = `chip-cartao ${cartaoSelecionadoId === cartao.id ? 'ativo' : ''}`;
+            chip.innerText = cartao.nome;
+            chip.onclick = () => selecionarCartao(cartao);
+            // Insere antes do botão de "+" (o último filho)
+            container.insertBefore(chip, container.lastChild);
+        });
+
+        // Seleção Automática: Se tiver cartões e nenhum estiver selecionado, pega o primeiro
+        if (cartoes.length > 0 && !cartaoSelecionadoId) {
+            selecionarCartao(cartoes[0]);
+        }
+    } catch (e) { console.error("Erro ao listar cartões", e); }
+}
+
+function selecionarCartao(cartao) {
+    cartaoSelecionadoId = cartao.id;
+    document.getElementById('area-cartoes').style.display = 'block';
+    document.getElementById('btn-add-gasto-container').style.display = 'block';
+
+    // Atualiza visual (para mudar a cor do chip ativo)
+    carregarListaCartoes();
+
+    // Carrega fatura do cartão escolhido
+    carregarFatura(cartao);
+}
+
+async function carregarFatura(cartao) {
+    try {
+        const resp = await fetch(`${API_URL}/gastos/${cartao.id}`);
+        const gastos = await resp.json();
+
+        let total = 0;
+        const lista = document.getElementById('lista-gastos-cartao');
+        lista.innerHTML = '';
+
+        gastos.forEach(g => {
+            total += g.valor;
+            const dataFmt = new Date(g.data_compra).toLocaleDateString('pt-BR');
+            lista.innerHTML += `
+                <li class="transacao-item">
+                    <div>
+                        <div style="font-weight:bold;">${g.descricao}</div>
+                        <div style="font-size:0.8rem; color:#666;">${dataFmt}</div>
+                    </div>
+                    <div style="color: #C62828; font-weight:bold;">
+                        ${g.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+                </li>
+            `;
+        });
+
+        document.getElementById('fatura-valor').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('fatura-detalhes').innerText = `Vence dia ${cartao.dia_vencimento}`;
+
+    } catch (e) { console.error("Erro fatura", e); }
+}
+
+// --- Funções dos Modais de Cartão ---
+
+function abrirModalNovoCartao() { document.getElementById('modal-novo-cartao').style.display = 'flex'; }
+function abrirModalGastoCartao() { document.getElementById('modal-gasto-cartao').style.display = 'flex'; }
+
+// Reutiliza a função fecharModal se ela já existir, ou usa a lógica local
+function fecharModal(idModal) {
+    // Se passar o ID, fecha ele. Se não, tenta fechar os genéricos.
+    if(idModal) {
+        document.getElementById(idModal).style.display = 'none';
+    } else {
+        // Fallback para os modais antigos
+        document.getElementById('modal-transacao').style.display = 'none';
+    }
+}
+
+async function salvarNovoCartao() {
+    const nome = document.getElementById('input-nome-cartao').value;
+    const venc = document.getElementById('input-vencimento-cartao').value;
+    const fech = document.getElementById('input-fechamento-cartao').value;
+
+    if(!nome || !venc || !fech) return alert("Preencha todos os campos!");
+
+    await fetch(`${API_URL}/cartao`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ nome: nome, dia_vencimento: parseInt(venc), dia_fechamento: parseInt(fech) })
+    });
+
+    fecharModal('modal-novo-cartao');
+    carregarListaCartoes();
+}
+
+async function salvarGastoCartao() {
+    const desc = document.getElementById('input-desc-cartao').value;
+    const valor = document.getElementById('input-valor-cartao').value;
+
+    if(!desc || !valor) return alert("Preencha tudo!");
+
+    await fetch(`${API_URL}/gasto-cartao`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ descricao: desc, valor: parseFloat(valor), cartao_id: cartaoSelecionadoId })
+    });
+
+    fecharModal('modal-gasto-cartao');
+
+    // Atualiza a fatura imediatamente após salvar
+    const resp = await fetch(`${API_URL}/cartoes`);
+    const cartoes = await resp.json();
+    const atual = cartoes.find(c => c.id === cartaoSelecionadoId);
+    if(atual) carregarFatura(atual);
+}
