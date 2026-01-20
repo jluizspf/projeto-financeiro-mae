@@ -3,6 +3,7 @@ let tipoTransacaoAtual = 'despesa';
 let dataVisualizacao = new Date();
 
 document.addEventListener('DOMContentLoaded', async () => {
+    iniciarRelogio()
     if (document.getElementById('saldo-atual')) {
         atualizarTituloMes();
         await carregarDadosFinanceiros();
@@ -274,4 +275,38 @@ async function deletarContaRecorrente(id) {
             console.error("Erro:", erro);
         }
     }
+}
+// --- FUNÇÃO DO RELÓGIO (NOVO) ---
+function iniciarRelogio() {
+    // 1. Cria o elemento HTML do relógio se ele não existir
+    if (!document.getElementById('relogio-neide')) {
+        const divRelogio = document.createElement('div');
+        divRelogio.id = 'relogio-neide';
+        divRelogio.className = 'relogio-flutuante';
+        document.body.appendChild(divRelogio);
+    }
+
+    // 2. Função que atualiza o texto
+    const atualizar = () => {
+        const agora = new Date();
+
+        // Formata a data: "Segunda-feira, 20 de Janeiro"
+        const opcoesData = { weekday: 'long', day: 'numeric', month: 'long' };
+        let dataStr = agora.toLocaleDateString('pt-BR', opcoesData);
+        dataStr = dataStr.charAt(0).toUpperCase() + dataStr.slice(1); // Primeira letra maiúscula
+
+        // Formata a hora: "15:30"
+        const horaStr = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+        // Escreve no HTML
+        const el = document.getElementById('relogio-neide');
+        el.innerHTML = `
+            <span class="material-icons relogio-icone">schedule</span>
+            <span>${dataStr} • ${horaStr}</span>
+        `;
+    };
+
+    // 3. Roda agora e repete a cada 1 segundo (1000 milissegundos)
+    atualizar();
+    setInterval(atualizar, 1000);
 }
